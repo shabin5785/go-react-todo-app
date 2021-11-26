@@ -1,0 +1,35 @@
+version: '3.0'
+services:
+
+  postgres:
+    build: ./database
+    environment:
+      - POSTGRES_DB=todo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - pgsql-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  todo_backend:
+    build: ./backend
+    ports:
+      - 8080:8080
+
+  ui_todo:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    
+
+volumes:
+  pgsql-volume:
+    external:
+      name: pgsql-volume
+
+networks:
+  default:
+    external:
+      name: todo-network
+    
